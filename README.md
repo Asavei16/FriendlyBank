@@ -2,7 +2,6 @@
 I'm making this app, because I want to learn JavaScript.
 
 You can: 
-* Sign Up with Full Name and PIN
 * Sign In
 * Deposit
 * Withdraw
@@ -10,6 +9,7 @@ You can:
 * Request loan
 * Close account
 * Sort balance
+* Logout
 
-Diagram
+## Diagram
 ![FriendlyBank](https://github.com/Asavei16/FriendlyBank/assets/57408487/7bb04929-59c1-494f-b369-1a2437bff370)
