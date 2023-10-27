@@ -154,7 +154,56 @@ btnLogin.addEventListener('click', function(e){
 
     //Clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
+
+    //Update UI
+    updateUi(currentAccount);
+
     }
 })
 
+const updateUi = function (acc){
+  //Update table Movements
+  displayMovements(acc.movements);
 
+  //Current Balance
+  currentBalance(acc);
+
+  //Sumarry
+  calcDisplaySummary(acc);
+
+}
+
+//Display Balance Tabel
+const displayMovements = function(movements, sort = false) {
+  containerMovements.innerHTML = '';
+
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movs.forEach(function(mov, i){
+    const type = mov > 0 ? 'deposit' : 'withdrawal';
+    const html = `<div class="movements-row"> <div class="movements-type movements-type--${type}">${i + 1} ${type}</div>
+    <div class="movements-date">3 days ago</div>
+    <div class="movements-value">${mov}€</div></div>`;
+
+    containerMovements.insertAdjacentHTML('afterbegin', html); //beforebegin,afterbegin,beforeend,afterend
+  });
+}
+
+// Display Current Balance
+const currentBalance = function(acc){
+  acc.balance = acc.movements.reduce((acc, mov) => mov + acc, 0);
+  labelBalance.textContent = `${acc.balance}€`;
+
+}
+
+//Display Summary
+const calcDisplaySummary = function (acc){
+  const incomes = acc.movements.filter(mov => mov > 0).reduce((acc, mov) => mov + acc, 0); 
+  labelSumIn.textContent = `${incomes}€`;
+
+  const outcomes = acc.movements.filter(mov => mov < 0).reduce((acc, mov) => mov + acc, 0); 
+  labelSumOut.textContent = `${outcomes}€`;
+
+  const interest = acc.movements.filter(mov => mov > 0).map(deposit => (deposit * acc.interestRate)/ 100).filter(int =>{return int>=1}).reduce((acc, int) => acc + int, 0); 
+  labelSumInterest.textContent = `${interest}€`;
+}
