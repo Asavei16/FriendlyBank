@@ -123,3 +123,38 @@ const btnTransfer = document.querySelector('.form-btn--transfer');
 const containerApp = document.querySelector('.main');
 const containerMovements = document.querySelector('.movements');
 
+// Create Usernames
+const createUsernames = function (accs) {
+  accs.forEach(function (acc) {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(name => name[0])
+      .join('');
+  });
+};
+
+createUsernames(accounts);
+
+
+/// Login
+let currentAccount;
+
+btnLogin.addEventListener('click', function(e){
+    e.preventDefault();
+
+    currentAccount = accounts.find( acc => acc.username === inputLoginUsername.value);
+    console.log(currentAccount);
+
+    if(currentAccount?.pin === Number(inputLoginPin.value)){
+        console.log('PIN');
+    
+    labelWelcome.textContent = `Welcome back, ${currentAccount.owner}`; //${currentAccount.owner}.split(' ').[0]
+    containerApp.style.opacity = 100;
+
+    //Clear input fields
+    inputLoginUsername.value = inputLoginPin.value = '';
+    }
+})
+
+
