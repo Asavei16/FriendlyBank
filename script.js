@@ -119,6 +119,7 @@ const btnClose = document.querySelector('.form-btn--close');
 const btnLoan = document.querySelector('.form-btn--loan');
 const btnSort = document.querySelector('.btn--sort');
 const btnTransfer = document.querySelector('.form-btn--transfer');
+const btnLogout = document.querySelector('.logout-btn');
 
 const containerApp = document.querySelector('.main');
 const containerMovements = document.querySelector('.movements');
@@ -253,18 +254,27 @@ btnLoan.addEventListener('click', function(e){
   inputLoanAmount.value = '';
 })
 
-// //Close account
-// btnClose.addEventListener('click', function(e){
-//   e.preventDefault();
+//Close account - issues for this moment
+btnClose.addEventListener('click', function(e){
+  e.preventDefault();
 
-//   if(inputCloseUsername.value === currentAccount.username && 
-//     Number(inputClosePin.value) === currentAccount.pin){
-//       const index = accounts.findIndex( acc => acc.username === currentAccount.username);
-//       // Delete account
-//       accounts.splice(index, 1);
+  if(inputCloseUsername.value === currentAccount.username && 
+    Number(inputClosePin.value) === currentAccount.pin){
+      const index = accounts.findIndex( acc => acc.username === currentAccount.username);
+      // Delete account
+      accounts.splice(index, 1);
 
-//       // Hide UI
-//       containerApp.style.opacity = 0;
-//   }
-//   inputCloseUsername.value = inputClosePin.value = '';
-// });
+      // Hide UI
+      containerApp.style.opacity = 0;
+    }
+    inputCloseUsername.value = inputClosePin.value = '';
+});
+
+//Logout user
+ btnLogout.addEventListener('click', function(){
+  // e.preventDefault();
+  labelWelcome.textContent = 'Log in to get started';
+
+  // Hide UI
+  containerApp.style.opacity = 0;
+ })
