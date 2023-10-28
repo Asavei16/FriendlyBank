@@ -138,9 +138,10 @@ const createUsernames = function (accs) {
 createUsernames(accounts);
 
 
-/// Login
-let currentAccount;
+// Event Handler
+let currentAccount, timer;
 
+/// Login
 btnLogin.addEventListener('click', function(e){
     e.preventDefault();
 
@@ -148,13 +149,36 @@ btnLogin.addEventListener('click', function(e){
     console.log(currentAccount);
 
     if(currentAccount?.pin === Number(inputLoginPin.value)){
-        console.log('PIN');
     
-    labelWelcome.textContent = `Welcome back, ${currentAccount.owner}`; //${currentAccount.owner}.split(' ').[0]
+    labelWelcome.textContent = `Welcome back, ${currentAccount.owner}`; //${currentAccount.owner.split(' ').[0]}
     containerApp.style.opacity = 100;
+
+    //Create current date and time 
+    const now = new Date();
+    const options ={
+      hour: "numeric",
+      minute: "numeric",
+      day:"numeric",
+      month:"numeric",
+      year: "numeric"
+    };
+
+    // const day = `${now.getDate()}`.padStart(2, 0);
+    // const month = `${now.getMonth() + 1}`.padStart(2, 0);
+    // const year = now.getFullYear();
+    // const hour = `${now.getHours()}`.padStart(2, 0);
+    // const min = `${now.getMinutes()}`.padStart(2, 0);
+    // labelDate.textContent = `${day}/${month}/${year}, ${hour}:${min}`;
+
+    labelDate.textContent = new Intl.DateTimeFormat(currentAccount.locale,options).format(now);
 
     //Clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
+
+    //Timer
+    if(timer) 
+    clearInterval(timer);
+    timer = startLogOutTimer();
 
     //Update UI
     updateUI(currentAccount);
@@ -235,6 +259,10 @@ btnTransfer.addEventListener('click', function(e){
 
     //Update UI
     updateUI(currentAccount);
+
+    //Reset timer
+    clearInterval(timer);
+    timer = startLogOutTimer();
   }
 })
 
@@ -252,6 +280,10 @@ btnLoan.addEventListener('click', function(e){
   }
 
   inputLoanAmount.value = '';
+
+  // Reset timer
+  clearInterval(timer);
+  timer = startLogOutTimer();
 })
 
 //Close account - issues for this moment
@@ -259,8 +291,9 @@ btnClose.addEventListener('click', function(e){
   e.preventDefault();
 
   if(inputCloseUsername.value === currentAccount.username && 
-    Number(inputClosePin.value) === currentAccount.pin){
+    +inputClosePin.value === currentAccount.pin){
       const index = accounts.findIndex( acc => acc.username === currentAccount.username);
+      console.log(index);
       // Delete account
       accounts.splice(index, 1);
 
@@ -278,3 +311,35 @@ btnClose.addEventListener('click', function(e){
   // Hide UI
   containerApp.style.opacity = 0;
  })
+
+ //Start LogOutTimer
+ const startLogOutTimer = function(){
+  const tick = function(){
+    const min = String(Math.trunc(time/60)).padStart(2,0);
+    const sec = String(time %60).padStart(2,0);
+
+    //In each call, print the remaining time to UI
+    labelTimer.textContent = `${min}:${sec}`;
+
+    //When 0 seconds, stop timer and logout user
+    if(time === 0){
+    clearInterval(timer);
+    labelWelcome.textContent = "Log in to get started";
+    containerApp.style.opacity = 0;
+    }
+
+    console.log(min, sec);
+
+    //Decrease 1s
+    time--;
+  };
+
+  //Set time to 2 minutes
+  let time = 120;
+
+  //Call the timer every second
+  tick();
+  const timer = setInterval(tick, 1000);
+
+  return timer;
+ }
