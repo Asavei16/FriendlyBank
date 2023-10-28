@@ -78,9 +78,6 @@ const account4 = {
   interestRate: 1, // %
   pin: 4444,
   movementsDates: [
-    "2020-11-01T13:15:33.035Z",
-    "2021-11-30T09:48:16.867Z",
-    "2021-12-25T06:04:23.907Z",
     "2022-01-25T14:18:46.235Z",
     "2022-02-05T16:33:06.386Z",
     "2023-04-10T14:43:26.374Z",
@@ -105,8 +102,8 @@ const labelTimer = document.querySelector(".timer");
 
 const inputLoginUsername = document.querySelector(".login-input--user");
 const inputLoginPin = document.querySelector(".login-input--pin");
-const inputClosePin = document.querySelector("form-input--pin");
-const inputCloseUsername = document.querySelector("form-input--user");
+const inputClosePin = document.querySelector(".form-input--pin");
+const inputCloseUsername = document.querySelector(".form-input--user");
 const inputLoanAmount = document.querySelector(".form-input--loan-amount");
 const inputTransferAmount = document.querySelector(".form-input--amount");
 const inputTransferTo = document.querySelector(".form-input--to");
@@ -185,7 +182,7 @@ btnLogin.addEventListener("click", function (e) {
 
 const updateUI = function (acc) {
   //Update table Movements
-  displayMovements(acc.movements); //acc
+  displayMovements(acc); //acc -> acc.movements
 
   //Current Balance
   currentBalance(acc);
@@ -195,25 +192,26 @@ const updateUI = function (acc) {
 };
 
 //Display Balance Tabel
-const displayMovements = function (movements, sort = false) { //acc.movements
+const displayMovements = function (acc, sort = false) { //acc-> movements
   containerMovements.innerHTML = "";
 
-  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+  const movs = sort ? [...acc.movements].slice().sort((a, b) => a - b) : acc.movements;
+
 
   movs.forEach(function (mov, i) {
     const type = mov > 0 ? "deposit" : "withdrawal";
 
-    // const date = new Date(acc.movementsDates[i]);
-    // const displayDate = formatMovementDate(date, acc.locale);
-    // const formattedMov = formatCurrency(mov, acc.locale, acc.currency);
+    const date = new Date(acc.movementsDates[i]);
+    const displayDate = formatMovementDate(date, acc.locale);
+    const formattedMov = formatCurrency(mov, acc.locale, acc.currency);
 
     const html = `<div class="movements-row"> <div class="movements-type movements-type--${type}">${
       i + 1
     } ${type}</div>
-    <div class="movements-date">3 days ago</div> 
-    <div class="movements-value">${mov}</div></div>`; //${displayDate} //${formattedMov} 
+    <div class="movements-date">${displayDate}</div> 
+    <div class="movements-value">${formattedMov}</div></div>`; //${displayDate} //${formattedMov} 
 
-    containerMovements.insertAdjacentHTML("afterbegin", html); //beforebegin,afterbegin,beforeend,afterend
+    containerMovements.insertAdjacentHTML("afterbegin", html); //beforebegin, ->afterbegin<-,beforeend,afterend
   });
 };
 
@@ -232,7 +230,7 @@ const currentBalance = function (acc) {
 const calcDisplaySummary = function (acc) {
   const incomes = acc.movements
     .filter((mov) => mov > 0)
-    .reduce((acc, mov) => mov + acc, 0);
+    .reduce((acc, mov) => acc + mov, 0);
   // labelSumIn.textContent = `${incomes}€`;
   labelSumIn.textContent = formatCurrency(incomes, acc.locale, acc.currency);
 
@@ -240,7 +238,7 @@ const calcDisplaySummary = function (acc) {
     .filter((mov) => mov < 0)
     .reduce((acc, mov) => mov + acc, 0);
   // labelSumOut.textContent = `${outcomes}€`;
-  labelSumOut.textContent = formatCurrency(outcomes, acc.locale, acc.currency);
+  labelSumOut.textContent = formatCurrency(Math.abs(outcomes), acc.locale, acc.currency); //outcomes
 
   const interest = acc.movements
     .filter((mov) => mov > 0)
@@ -250,6 +248,7 @@ const calcDisplaySummary = function (acc) {
     })
     .reduce((acc, int) => acc + int, 0);
   // labelSumInterest.textContent = `${interest}€`;
+
   labelSumInterest.textContent = formatCurrency(
     interest,
     acc.locale,
@@ -261,7 +260,7 @@ const calcDisplaySummary = function (acc) {
 let sorted = false;
 btnSort.addEventListener("click", function (e) {
   e.preventDefault();
-  displayMovements(currentAccount.movements, !sorted);
+  displayMovements(currentAccount, !sorted); //currentAccount.movements
   sorted = !sorted;
 });
 
@@ -334,6 +333,7 @@ btnClose.addEventListener("click", function (e) {
 
     // Hide UI
     containerApp.style.opacity = 0;
+    labelWelcome.textContent = "Log in to get started";
   }
   inputCloseUsername.value = inputClosePin.value = "";
 });
