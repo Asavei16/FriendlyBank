@@ -222,6 +222,25 @@
   .operation--close {
     background-image: linear-gradient(to top left, #e52a5a, #ff585f);
   }
+
+  .operation--deposit {
+    width: 204px;
+    padding: 25px;
+    background-image: linear-gradient(to top left, #39b385, #9be15d);
+  }
+
+  .operation--withdrawal {
+    position: absolute;
+    left: 795px;
+    top: 92px;
+    height: 150px;
+    padding: 25px;
+    background-image: linear-gradient(to top left, #e52a5a, #ff585f);
+  }
+
+  .operation--conversion {
+    background-image: linear-gradient(to top left, #ffb003, #ffcb03);
+  }
   
   h2 {
     margin-bottom: 1.5rem;
@@ -246,6 +265,28 @@
   }
   /* End exceptions */
   
+
+  .form.form--deposit {
+    grid-template-columns: 2.5fr 1fr 2.5fr;
+  }
+  .form-label--deposit {
+    grid-row: 2;
+  }
+
+  .form.form--withdrawal {
+    grid-template-columns: 2.5fr 1fr 2.5fr;
+  }
+  .form-label--withdrawal {
+    grid-row: 2;
+  }
+
+  .form.form--conversion {
+    grid-template-columns: 2.5fr 1fr 2.5fr;
+  }
+  .form-label--conversion {
+    grid-row: 2;
+  }
+
   .form-input {
     width: 100%;
     border: none;
@@ -285,7 +326,7 @@
 
   .btn-logOut {
     width: 132px;
-    margin-left: 150px;
+    margin-left: 87%;
     border: none;
     border-radius: 17.7rem;
     font-size: 1.8rem;

@@ -91,6 +91,26 @@
         <button class="btn--sort">&downarrow; SORT</button>
       </div>
 
+      <!-- OPERATION: DEPOSIT -->
+      <div class="operation operation--deposit">
+        <h2>Deposit money</h2>
+        <form class="form form--deposit">
+          <input type="number" class="form-input form-input--deposit-amount" />
+          <button class="form-btn form-btn--deposit">&rarr;</button>
+          <label class="form-label form-label--deposit">Amount</label>
+        </form>
+      </div>
+
+      <!-- OPERATION: WITHDRAWAL -->
+      <div class="operation operation--withdrawal">
+        <h2>Withdrawal money</h2>
+        <form class="form form--withdrawal">
+          <input type="number" class="form-input form-input--withdrawal-amount" />
+          <button class="form-btn form-btn--withdrawal">&rarr;</button>
+          <label class="form-label form-label--withdrawal">Amount</label>
+        </form>
+      </div>
+
       <!-- OPERATION: TRANSFERS -->
       <div class="operation operation--transfer">
         <h2>Transfer money</h2>
@@ -113,6 +133,16 @@
         </form>
       </div>
 
+      <!-- OPERATION: CURRENCY CONVERSION -->
+      <div class="operation operation--conversion">
+        <h2>Currency conversion</h2>
+        <form class="form form--conversion">
+          <input type="number" class="form-input form-input--conversion-amount" />
+          <button class="form-btn form-btn--conversion">&rarr;</button>
+          <label class="form-label form-label--conversion">Conversion</label>
+        </form>
+      </div>
+
       <!-- OPERATION: CLOSE -->
       <div class="operation operation--close">
         <h2>Close account</h2>
@@ -128,8 +158,7 @@
           <label class="form-label">Confirm PIN</label>
         </form>
       </div>
-
-      <button class="btn-logOut logout-btn"> Log Out &rarr;</button>
+      <button class="btn-logOut logout-btn"> Log out</button>
 
       <!-- LOGOUT TIMER -->
       <p class="logout-timer">
