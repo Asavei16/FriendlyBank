@@ -165,7 +165,9 @@
   
   /* SUMMARY */
   .summary {
-    grid-row: 5 / 6;
+    /* grid-row: 5 / 6; */
+    position: absolute;
+    top: 50px;
     display: flex;
     align-items: baseline;
     padding: 0 0.3rem;
@@ -309,22 +311,6 @@
   
   .timer {
     font-weight: 600;
-  }
-  
-
-   /* Message */
-   .message {
-    position: relative;
-    max-width: 100rem;
-    margin: 4rem auto;
-    display: grid;
-    grid-template-columns: 4fr 3fr;
-    grid-template-rows: auto repeat(3, 15rem) auto;
-    gap: 2rem;
-  
-    /* NOTE This creates the fade in/out anumation */
-    opacity: 0; 
-    transition: all 1s;
   }
 
   section {

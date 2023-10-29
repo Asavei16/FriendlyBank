@@ -469,7 +469,7 @@ const startLogOutTimer = function () {
   };
 
   //Set time to 2 minutes
-  let time = 120;
+  let time = 600; //120
 
   //Call the timer every second
   tick();
