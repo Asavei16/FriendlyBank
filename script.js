@@ -90,6 +90,29 @@ const account4 = {
 
 const accounts = [account1, account2, account3, account4];
 
+const exchangeRates = {
+  RON: {
+    USD: 0.24, // 1 RON = 0.24 USD
+    GBP: 0.18, // 1 RON = 0.18 GBP
+    EUR: 0.21, // 1 RON = 0.21 EUR
+  },
+  USD: {
+    RON: 4.17, // 1 USD = 4.17 RON
+    GBP: 0.76, // 1 USD = 0.76 GBP
+    EUR: 0.88, // 1 USD = 0.88 EUR
+  },
+  GBP: {
+    RON: 5.62, // 1 GBP = 5.62 RON
+    USD: 1.31, // 1 GBP = 1.31 USD
+    EUR: 1.17, // 1 GBP = 1.17 EUR
+  },
+  EUR: {
+    RON: 4.97, // 1 EUR = 4.97 RON
+    USD: 1.14, // 1 EUR = 1.14 USD
+    GBP: 0.85, // 1 EUR = 0.85 GBP
+  },
+};
+
 ////////////////////////////////////////////////////
 ///Elements
 const labelWelcome = document.querySelector(".welcome");
@@ -320,6 +343,8 @@ btnTransfer.addEventListener("click", function (e) {
   );
 
   inputTransferAmount.value = inputTransferTo.value = "";
+  const fromCurrency = currentAccount.currency;
+  const toCurrency = receiverAcc.currency;
 
   if (
     amount > 0 &&
@@ -327,9 +352,23 @@ btnTransfer.addEventListener("click", function (e) {
     currentAccount.balance >= amount &&
     receiverAcc?.username !== currentAccount.username
   ) {
-    //Doing the transfer
+    if(fromCurrency === toCurrency){
+    // If are identical, no conversion
     receiverAcc.movements.push(amount);
+    } else {
+      //Make conversion
+    const exchangeRate = exchangeRates[fromCurrency][toCurrency];
+    const convertedAmount = amount * exchangeRate;
+    console.log(exchangeRate, convertedAmount);
+
+    //Doing the transfer
+    receiverAcc.movements.push(convertedAmount);
+  }
     currentAccount.movements.push(-amount);
+
+    // Add transfer date
+    currentAccount.movementsDates.push(new Date().toISOString());
+    receiverAcc.movementsDates.push(new Date().toISOString());
 
     //Update UI
     updateUI(currentAccount);
@@ -343,24 +382,29 @@ btnTransfer.addEventListener("click", function (e) {
 //Loan
 btnLoan.addEventListener("click", function (e) {
   e.preventDefault();
-  const amount = Number(inputLoanAmount.value);
+  // const amount = Number(inputLoanAmount.value);
+  const amount = Math.floor(inputLoanAmount.value);
 
   if (
     amount > 0 &&
     currentAccount.movements.some((move) => move >= amount * 0.1)
   ) {
+    setTimeout(function (){
     // Add movement
     currentAccount.movements.push(amount);
 
+    // Add loan date
+    currentAccount.movementsDates.push(new Date().toISOString());
+
     //Update UI
     updateUI(currentAccount);
+
+    // Reset timer
+    clearInterval(timer);
+    timer = startLogOutTimer();
+    }, 2500);
   }
-
   inputLoanAmount.value = "";
-
-  // Reset timer
-  clearInterval(timer);
-  timer = startLogOutTimer();
 });
 
 //Close account - issues for this moment
