@@ -99,9 +99,12 @@ const labelSumIn = document.querySelector(".summary-value--in");
 const labelSumInterest = document.querySelector(".summary-value--interest");
 const labelSumOut = document.querySelector(".summary-value--out");
 const labelTimer = document.querySelector(".timer");
+const labelLogin = document.querySelector(".login");
 
 const inputLoginUsername = document.querySelector(".login-input--user");
 const inputLoginPin = document.querySelector(".login-input--pin");
+const signupLoginUsername = document.querySelector(".signup-input--user");
+const signupLoginPin = document.querySelector(".signup-input--pin");
 const inputClosePin = document.querySelector(".form-input--pin");
 const inputCloseUsername = document.querySelector(".form-input--user");
 const inputLoanAmount = document.querySelector(".form-input--loan-amount");
@@ -109,6 +112,7 @@ const inputTransferAmount = document.querySelector(".form-input--amount");
 const inputTransferTo = document.querySelector(".form-input--to");
 
 const btnLogin = document.querySelector(".login-btn");
+const btnSignup = document.querySelector(".signup-btn");
 const btnClose = document.querySelector(".form-btn--close");
 const btnLoan = document.querySelector(".form-btn--loan");
 const btnSort = document.querySelector(".btn--sort");
@@ -117,6 +121,7 @@ const btnLogout = document.querySelector(".logout-btn");
 
 const containerApp = document.querySelector('.main');
 const containerMovements = document.querySelector('.movements');
+const containerSection = document.querySelector('section');
 
 // Create Usernames
 const createUsernames = function (accs) {
@@ -170,6 +175,48 @@ btnLogin.addEventListener("click", function (e) {
 
     //Clear input fields
     inputLoginUsername.value = inputLoginPin.value = "";
+
+    //Timer
+    if (timer) clearInterval(timer);
+    timer = startLogOutTimer();
+
+    //Update UI
+    updateUI(currentAccount);
+  }
+});
+
+/// Login Main
+btnSignup.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  currentAccount = accounts.find(
+    (acc) => acc.username === signupLoginUsername.value
+  );
+
+  if (currentAccount?.pin === Number(signupLoginPin.value)) {
+    labelWelcome.textContent = `Welcome back, ${currentAccount.owner}`; //${currentAccount.owner.split(' ').[0]}
+    containerApp.style.opacity = 100;
+    labelLogin.style.display = 'block';
+    containerSection.style.display = 'none';
+
+
+    //Create current date and time
+    const now = new Date();
+    const options = {
+      hour: "numeric",
+      minute: "numeric",
+      day: "numeric",
+      month: "numeric",
+      year: "numeric",
+    };
+
+    labelDate.textContent = new Intl.DateTimeFormat(
+      currentAccount.locale,
+      options
+    ).format(now);
+
+    //Clear input fields
+    signupLoginUsername.value = signupLoginPin.value = "";
 
     //Timer
     if (timer) clearInterval(timer);
@@ -340,11 +387,14 @@ btnClose.addEventListener("click", function (e) {
 
 //Logout user
 btnLogout.addEventListener("click", function () {
-  // e.preventDefault();
   labelWelcome.textContent = "Log in to get started";
 
   // Hide UI
   containerApp.style.opacity = 0;
+
+  labelLogin.style.display = 'none';
+  // Display Welcome Message
+  containerSection.style.display = 'flex';
 });
 
 //Start LogOutTimer
@@ -361,6 +411,8 @@ const startLogOutTimer = function () {
       clearInterval(timer);
       labelWelcome.textContent = "Log in to get started";
       containerApp.style.opacity = 0;
+      labelLogin.style.display = 'none';
+      containerSection.style.display = 'flex';
     }
 
     //Decrease 1s
