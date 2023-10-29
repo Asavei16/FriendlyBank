@@ -13,4 +13,9 @@ You can:
 * LogOut Timer
 * Currency Conversion
 
+## Diagram - FriendlyBank
+
+![FriendlyBank_Diagram](https://github.com/Asavei16/FriendlyBank/assets/57408487/ee0675ba-3481-4e9d-b317-49a8327eca7e)
+
+
 ## Still in progress...
