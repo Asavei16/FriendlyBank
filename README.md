@@ -11,5 +11,4 @@ You can:
 * Sort balance
 * Logout
 
-## Diagram
-![FriendlyBank](https://github.com/Asavei16/FriendlyBank/assets/57408487/7bb04929-59c1-494f-b369-1a2437bff370)
+## Still in progress...
