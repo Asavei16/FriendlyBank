@@ -136,11 +136,54 @@
       <!-- OPERATION: CURRENCY CONVERSION -->
       <div class="operation operation--conversion">
         <h2>Currency conversion</h2>
-        <form class="form form--conversion">
+        <input type="text" class="form-control searchBox" placeholder="0.00" id="oamount">
+        <!-- <form class="form form--conversion">
           <input type="number" class="form-input form-input--conversion-amount" />
           <button class="form-btn form-btn--conversion">&rarr;</button>
           <label class="form-label form-label--conversion">Conversion</label>
-        </form>
+        </form> -->
+        <div class="row">
+                <div class="col-sm-6">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">From</span>
+                        </div>
+                        <select class="form-control from" id="sel1">
+                            <option value="">Select One …</option>
+                            <option value="RON">RON</option>
+                            <option value="EUR">EUR</option>
+                            <option value="USD">USD</option>
+                            <option value="GBP">GBP</option>
+                        </select>
+                    </div>
+                </div>
+ 
+                <div class="col-sm-6">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">To</span>
+                        </div>
+                        <select class="form-control to" id="sel2">
+                            <option value="">Select One …</option>
+                            <option value="RON">RON</option>
+                            <option value="EUR">EUR</option>
+                            <option value="USD">USD</option>
+                            <option value="GBP">GBP</option>
+                        </select>
+                    </div>
+                </div>
+          </div>
+          <div class="text-center">
+ 
+            <!-- convert button -->
+            <button class="btn btn-primary convert m-2" type="submit">
+                Convert
+            </button>
+        </div>
+        <h2>Converted Amount :
+          <span class="finalValue" style="color:green;">
+          </span>
+      </h2>
       </div>
 
       <!-- OPERATION: CLOSE -->

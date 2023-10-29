@@ -212,15 +212,15 @@
   }
   
   .operation--transfer {
-    background-image: linear-gradient(to top left, #ffb003, #ffcb03);
+    background-image: linear-gradient(to top left, #ffd103, #fffb03);
   }
   
   .operation--loan {
-    background-image: linear-gradient(to top left, #39b385, #9be15d);
+    background-image: linear-gradient(to top left, #39b3ad, #5de1c0);
   }
   
   .operation--close {
-    background-image: linear-gradient(to top left, #e52a5a, #ff585f);
+    background-image: linear-gradient(to top left, #e52a2a, #f0323b);
   }
 
   .operation--deposit {
@@ -265,17 +265,10 @@
   }
   /* End exceptions */
   
-
-  .form.form--deposit {
-    grid-template-columns: 2.5fr 1fr 2.5fr;
-  }
   .form-label--deposit {
     grid-row: 2;
   }
 
-  .form.form--withdrawal {
-    grid-template-columns: 2.5fr 1fr 2.5fr;
-  }
   .form-label--withdrawal {
     grid-row: 2;
   }
@@ -425,3 +418,20 @@
   .signup-btn:hover {
     color: rgb(0, 255, 13);
   }
+
+  /* ////////////////////////// */
+ 
+#finalAmount {
+    font-family: 'Lobster', cursive;
+    display: none;
+    margin: 50px auto;
+}
+ 
+#finalAmount h2 {
+    font-size: 50px;
+}
+ 
+.finalValue {
+    font-family: 'Amiri', serif;
+}
+ 

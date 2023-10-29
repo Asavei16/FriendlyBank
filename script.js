@@ -133,6 +133,8 @@ const inputCloseUsername = document.querySelector(".form-input--user");
 const inputLoanAmount = document.querySelector(".form-input--loan-amount");
 const inputTransferAmount = document.querySelector(".form-input--amount");
 const inputTransferTo = document.querySelector(".form-input--to");
+const inputDepositAmount = document.querySelector(".form-input--deposit-amount");
+const inputWithdrawalAmount = document.querySelector(".form-input--withdrawal-amount");
 
 const btnLogin = document.querySelector(".login-btn");
 const btnSignup = document.querySelector(".signup-btn");
@@ -141,6 +143,8 @@ const btnLoan = document.querySelector(".form-btn--loan");
 const btnSort = document.querySelector(".btn--sort");
 const btnTransfer = document.querySelector(".form-btn--transfer");
 const btnLogout = document.querySelector(".logout-btn");
+const btnDeposit = document.querySelector(".form-btn--deposit");
+const btnWithdrawal = document.querySelector(".form-btn--withdrawal");
 
 const containerApp = document.querySelector('.main');
 const containerMovements = document.querySelector('.movements');
@@ -407,6 +411,54 @@ btnLoan.addEventListener("click", function (e) {
   inputLoanAmount.value = "";
 });
 
+//Deposit
+btnDeposit.addEventListener("click", function (e) {
+  e.preventDefault();
+  const amount = Math.floor(inputDepositAmount.value);
+
+  if (amount > 0) {
+    setTimeout(function (){
+    // Add movement
+    currentAccount.movements.push(amount);
+
+    // Add loan date
+    currentAccount.movementsDates.push(new Date().toISOString());
+
+    //Update UI
+    updateUI(currentAccount);
+
+    // Reset timer
+    clearInterval(timer);
+    timer = startLogOutTimer();
+    }, 1000);
+  }
+  inputDepositAmount.value = "";
+});
+
+//Withdrawal
+btnWithdrawal.addEventListener("click", function (e) {
+  e.preventDefault();
+  // const amount = Number(inputLoanAmount.value);
+  const amount = Math.floor(inputWithdrawalAmount.value);
+
+    setTimeout(function (){
+    // Extract movement
+    currentAccount.movements.push(-amount);
+
+    // Add  date
+    currentAccount.movementsDates.push(new Date().toISOString());
+
+    //Update UI
+    updateUI(currentAccount);
+
+    // Reset timer
+    clearInterval(timer);
+    timer = startLogOutTimer();
+    }, 1000);
+  
+  inputWithdrawalAmount.value = "";
+});
+
 //Close account - issues for this moment
 btnClose.addEventListener("click", function (e) {
   e.preventDefault();
@@ -504,3 +556,74 @@ const formatMovementDate = function (date, locale) {
 
   return new Intl.DateTimeFormat(locale).format(date);
 };
+
+
+
+// /////////////////////////////////////////////////
+// /////////////////////////////////////////////////
+// /////////////////////////////////////////////////
+// /////////////////////////////////////////////////
+
+
+
+// Include api for currency change
+const api = "https://api.exchangerate-api.com/v4/latest/USD";
+ 
+// For selecting different controls
+let search = document.querySelector(".searchBox");
+let convert = document.querySelector(".convert");
+let fromCurrecy = document.querySelector(".from");
+let toCurrecy = document.querySelector(".to");
+let finalValue = document.querySelector(".finalValue");
+let finalAmount = document.getElementById("finalAmount");
+let resultFrom;
+let resultTo;
+let searchValue;
+ 
+// Event when currency is changed
+fromCurrecy.addEventListener('change', (event) => {
+    resultFrom = `${event.target.value}`;
+});
+ 
+// Event when currency is changed
+toCurrecy.addEventListener('change', (event) => {
+    resultTo = `${event.target.value}`;
+});
+ 
+search.addEventListener('input', updateValue);
+ 
+// Function for updating value
+function updateValue(e) {
+    searchValue = e.target.value;
+}
+ 
+// When user clicks, it calls function getresults 
+convert.addEventListener("click", getResults);
+ 
+// Function getresults
+function getResults() {
+    fetch(`${api}`)
+        .then(currency => {
+            return currency.json();
+        }).then(displayResults);
+}
+ 
+// Display results after conversion
+function displayResults(currency) {
+    let fromRate = currency.rates[resultFrom];
+    let toRate = currency.rates[resultTo];
+    finalValue.innerHTML =
+        ((toRate / fromRate) * searchValue).toFixed(2);
+    finalAmount.style.display = "block";
+}
+ 
+// When user click on reset button
+function clearVal() {
+    window.location.reload();
+    document.getElementsByClassName("finalValue").innerHTML = "";
+};
+
+
+// ///////////////////////////////////////////
+// ///////////////////////////////////////////
+// ///////////////////////////////////////////
