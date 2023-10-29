@@ -10,5 +10,7 @@ You can:
 * Close account
 * Sort balance
 * Logout
+* LogOut Timer
+* Currency Conversion
 
 ## Still in progress...
