@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css"/>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
 
     <title>FriendlyBank</title>
-</head>
-<body>
+  </head>
+  <body>
     <!--TOP NAVIGATOR-->
     <nav>
-    <p class="welcome">Log in to get started</p>
+      <p class="welcome">Log in to get started</p>
       <img src="logo.png" alt="Logo" class="logo" />
-      <form class="login" style="display: none;">
+      <form class="login" style="display: none">
         <input
           type="text"
           placeholder="user"
@@ -30,9 +30,11 @@
     </nav>
     <section>
       <div class="signUp">
-        <h1>Welcome to <a style="color: rgb(0, 255, 13);">FriendlyBank</a></h1>
-        <h2 style="text-align: center;">When banking meets <a style="color: rgb(0, 255, 13);">GREEN</a></h2>
-        
+        <h1>Welcome to <a style="color: rgb(0, 255, 13)">FriendlyBank</a></h1>
+        <h2 style="text-align: center">
+          When banking meets <a style="color: rgb(0, 255, 13)">GREEN</a>
+        </h2>
+
         <form class="signup">
           <input
             type="text"
@@ -53,13 +55,11 @@
     </section>
 
     <main class="main">
-        <!-- BALANCE -->
+      <!-- BALANCE -->
       <div class="balance">
         <div>
           <p class="balance-label">Current balance</p>
-          <p class="balance-date">
-            As of <span class="date">27/10/2023</span>
-          </p>
+          <p class="balance-date">As of <span class="date">27/10/2023</span></p>
         </div>
         <p class="balance-value">0000€</p>
       </div>
@@ -105,7 +105,10 @@
       <div class="operation operation--withdrawal">
         <h2>Withdrawal money</h2>
         <form class="form form--withdrawal">
-          <input type="number" class="form-input form-input--withdrawal-amount" />
+          <input
+            type="number"
+            class="form-input form-input--withdrawal-amount"
+          />
           <button class="form-btn form-btn--withdrawal">&rarr;</button>
           <label class="form-label form-label--withdrawal">Amount</label>
         </form>
@@ -136,54 +139,34 @@
       <!-- OPERATION: CURRENCY CONVERSION -->
       <div class="operation operation--conversion">
         <h2>Currency conversion</h2>
-        <input type="text" class="form-control searchBox" placeholder="0.00" id="oamount">
-        <!-- <form class="form form--conversion">
-          <input type="number" class="form-input form-input--conversion-amount" />
-          <button class="form-btn form-btn--conversion">&rarr;</button>
-          <label class="form-label form-label--conversion">Conversion</label>
-        </form> -->
-        <div class="row">
-                <div class="col-sm-6">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">From</span>
-                        </div>
-                        <select class="form-control from" id="sel1">
-                            <option value="">Select One …</option>
-                            <option value="RON">RON</option>
-                            <option value="EUR">EUR</option>
-                            <option value="USD">USD</option>
-                            <option value="GBP">GBP</option>
-                        </select>
-                    </div>
-                </div>
- 
-                <div class="col-sm-6">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">To</span>
-                        </div>
-                        <select class="form-control to" id="sel2">
-                            <option value="">Select One …</option>
-                            <option value="RON">RON</option>
-                            <option value="EUR">EUR</option>
-                            <option value="USD">USD</option>
-                            <option value="GBP">GBP</option>
-                        </select>
-                    </div>
-                </div>
-          </div>
-          <div class="text-center">
- 
-            <!-- convert button -->
-            <button class="btn btn-primary convert m-2" type="submit">
-                Convert
-            </button>
+        <div id="finalAmount">
+          <h2 id="convertedAmount">
+            Converted Amount :
+            <span class="finalValue" style="color: green"></span>
+          </h2>
         </div>
-        <h2>Converted Amount :
-          <span class="finalValue" style="color:green;">
-          </span>
-      </h2>
+        <input type="text" class="form-input-conversion searchBox" />
+
+        <form class="form">
+          <label class="form-label">From</label>
+          <label class="form-label">To</label>
+          <label class="form-label">Convert</label>
+          <select class="form-input from">
+            <option value="">Select One …</option>
+            <option value="RON">RON</option>
+            <option value="EUR">EUR</option>
+            <option value="USD">USD</option>
+            <option value="GBP">GBP</option>
+          </select>
+          <select class="form-input to">
+            <option value="">Select One …</option>
+            <option value="RON">RON</option>
+            <option value="EUR">EUR</option>
+            <option value="USD">USD</option>
+            <option value="GBP">GBP</option>
+          </select>          
+        </form>
+        <button class="form-btn convert">&rarr;</button>
       </div>
 
       <!-- OPERATION: CLOSE -->
@@ -192,7 +175,7 @@
         <form class="form form--close">
           <input type="text" class="form-input form-input--user" />
           <input
-            type="password" 
+            type="password"
             maxlength="6"
             class="form-input form-input--pin"
           />
@@ -201,7 +184,7 @@
           <label class="form-label">Confirm PIN</label>
         </form>
       </div>
-      <button class="btn-logOut logout-btn"> Log out</button>
+      <button class="btn-logOut logout-btn">Log out</button>
 
       <!-- LOGOUT TIMER -->
       <p class="logout-timer">
@@ -209,5 +192,5 @@
       </p>
     </main>
     <script src="script.js"></script>
-</body>
+  </body>
 </html>

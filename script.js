@@ -133,8 +133,12 @@ const inputCloseUsername = document.querySelector(".form-input--user");
 const inputLoanAmount = document.querySelector(".form-input--loan-amount");
 const inputTransferAmount = document.querySelector(".form-input--amount");
 const inputTransferTo = document.querySelector(".form-input--to");
-const inputDepositAmount = document.querySelector(".form-input--deposit-amount");
-const inputWithdrawalAmount = document.querySelector(".form-input--withdrawal-amount");
+const inputDepositAmount = document.querySelector(
+  ".form-input--deposit-amount"
+);
+const inputWithdrawalAmount = document.querySelector(
+  ".form-input--withdrawal-amount"
+);
 
 const btnLogin = document.querySelector(".login-btn");
 const btnSignup = document.querySelector(".signup-btn");
@@ -146,9 +150,21 @@ const btnLogout = document.querySelector(".logout-btn");
 const btnDeposit = document.querySelector(".form-btn--deposit");
 const btnWithdrawal = document.querySelector(".form-btn--withdrawal");
 
-const containerApp = document.querySelector('.main');
-const containerMovements = document.querySelector('.movements');
-const containerSection = document.querySelector('section');
+const containerApp = document.querySelector(".main");
+const containerMovements = document.querySelector(".movements");
+const containerSection = document.querySelector("section");
+
+
+// Include api for currency change
+const api = "https://api.exchangerate-api.com/v4/latest/USD";
+
+// For selecting different controls
+const search = document.querySelector(".searchBox");
+const convert = document.querySelector(".convert");
+const fromCurrency = document.querySelector(".from");
+const toCurrency = document.querySelector(".to");
+const finalValue = document.querySelector(".finalValue");
+const finalAmount = document.getElementById("finalAmount");
 
 // Create Usernames
 const createUsernames = function (accs) {
@@ -164,7 +180,7 @@ const createUsernames = function (accs) {
 createUsernames(accounts);
 
 // Event Handler
-let currentAccount, timer;
+let currentAccount, timer, resultFrom, resultTo, searchValue;
 
 /// Login
 btnLogin.addEventListener("click", function (e) {
@@ -177,6 +193,11 @@ btnLogin.addEventListener("click", function (e) {
   if (currentAccount?.pin === Number(inputLoginPin.value)) {
     labelWelcome.textContent = `Welcome back, ${currentAccount.owner}`; //${currentAccount.owner.split(' ').[0]}
     containerApp.style.opacity = 100;
+    finalValue.innerHTML =" ";
+    search.value = "";
+    fromCurrency.value = "";
+    toCurrency.value = "";
+
 
     //Create current date and time
     const now = new Date();
@@ -223,9 +244,8 @@ btnSignup.addEventListener("click", function (e) {
   if (currentAccount?.pin === Number(signupLoginPin.value)) {
     labelWelcome.textContent = `Welcome back, ${currentAccount.owner}`; //${currentAccount.owner.split(' ').[0]}
     containerApp.style.opacity = 100;
-    labelLogin.style.display = 'block';
-    containerSection.style.display = 'none';
-
+    labelLogin.style.display = "block";
+    containerSection.style.display = "none";
 
     //Create current date and time
     const now = new Date();
@@ -266,11 +286,13 @@ const updateUI = function (acc) {
 };
 
 //Display Balance Tabel
-const displayMovements = function (acc, sort = false) { //acc-> movements
+const displayMovements = function (acc, sort = false) {
+  //acc-> movements
   containerMovements.innerHTML = "";
 
-  const movs = sort ? [...acc.movements].slice().sort((a, b) => a - b) : acc.movements;
-
+  const movs = sort
+    ? [...acc.movements].slice().sort((a, b) => a - b)
+    : acc.movements;
 
   movs.forEach(function (mov, i) {
     const type = mov > 0 ? "deposit" : "withdrawal";
@@ -283,7 +305,7 @@ const displayMovements = function (acc, sort = false) { //acc-> movements
       i + 1
     } ${type}</div>
     <div class="movements-date">${displayDate}</div> 
-    <div class="movements-value">${formattedMov}</div></div>`; //${displayDate} //${formattedMov} 
+    <div class="movements-value">${formattedMov}</div></div>`; //${displayDate} //${formattedMov}
 
     containerMovements.insertAdjacentHTML("afterbegin", html); //beforebegin, ->afterbegin<-,beforeend,afterend
   });
@@ -312,7 +334,11 @@ const calcDisplaySummary = function (acc) {
     .filter((mov) => mov < 0)
     .reduce((acc, mov) => mov + acc, 0);
   // labelSumOut.textContent = `${outcomes}€`;
-  labelSumOut.textContent = formatCurrency(Math.abs(outcomes), acc.locale, acc.currency); //outcomes
+  labelSumOut.textContent = formatCurrency(
+    Math.abs(outcomes),
+    acc.locale,
+    acc.currency
+  ); //outcomes
 
   const interest = acc.movements
     .filter((mov) => mov > 0)
@@ -356,18 +382,18 @@ btnTransfer.addEventListener("click", function (e) {
     currentAccount.balance >= amount &&
     receiverAcc?.username !== currentAccount.username
   ) {
-    if(fromCurrency === toCurrency){
-    // If are identical, no conversion
-    receiverAcc.movements.push(amount);
+    if (fromCurrency === toCurrency) {
+      // If are identical, no conversion
+      receiverAcc.movements.push(amount);
     } else {
       //Make conversion
-    const exchangeRate = exchangeRates[fromCurrency][toCurrency];
-    const convertedAmount = amount * exchangeRate;
-    console.log(exchangeRate, convertedAmount);
+      const exchangeRate = exchangeRates[fromCurrency][toCurrency];
+      const convertedAmount = amount * exchangeRate;
+      console.log(exchangeRate, convertedAmount);
 
-    //Doing the transfer
-    receiverAcc.movements.push(convertedAmount);
-  }
+      //Doing the transfer
+      receiverAcc.movements.push(convertedAmount);
+    }
     currentAccount.movements.push(-amount);
 
     // Add transfer date
@@ -393,19 +419,19 @@ btnLoan.addEventListener("click", function (e) {
     amount > 0 &&
     currentAccount.movements.some((move) => move >= amount * 0.1)
   ) {
-    setTimeout(function (){
-    // Add movement
-    currentAccount.movements.push(amount);
+    setTimeout(function () {
+      // Add movement
+      currentAccount.movements.push(amount);
 
-    // Add loan date
-    currentAccount.movementsDates.push(new Date().toISOString());
+      // Add loan date
+      currentAccount.movementsDates.push(new Date().toISOString());
 
-    //Update UI
-    updateUI(currentAccount);
+      //Update UI
+      updateUI(currentAccount);
 
-    // Reset timer
-    clearInterval(timer);
-    timer = startLogOutTimer();
+      // Reset timer
+      clearInterval(timer);
+      timer = startLogOutTimer();
     }, 2500);
   }
   inputLoanAmount.value = "";
@@ -417,19 +443,19 @@ btnDeposit.addEventListener("click", function (e) {
   const amount = Math.floor(inputDepositAmount.value);
 
   if (amount > 0) {
-    setTimeout(function (){
-    // Add movement
-    currentAccount.movements.push(amount);
+    setTimeout(function () {
+      // Add movement
+      currentAccount.movements.push(amount);
 
-    // Add loan date
-    currentAccount.movementsDates.push(new Date().toISOString());
+      // Add loan date
+      currentAccount.movementsDates.push(new Date().toISOString());
 
-    //Update UI
-    updateUI(currentAccount);
+      //Update UI
+      updateUI(currentAccount);
 
-    // Reset timer
-    clearInterval(timer);
-    timer = startLogOutTimer();
+      // Reset timer
+      clearInterval(timer);
+      timer = startLogOutTimer();
     }, 1000);
   }
   inputDepositAmount.value = "";
@@ -441,7 +467,7 @@ btnWithdrawal.addEventListener("click", function (e) {
   // const amount = Number(inputLoanAmount.value);
   const amount = Math.floor(inputWithdrawalAmount.value);
 
-    setTimeout(function (){
+  setTimeout(function () {
     // Extract movement
     currentAccount.movements.push(-amount);
 
@@ -454,8 +480,8 @@ btnWithdrawal.addEventListener("click", function (e) {
     // Reset timer
     clearInterval(timer);
     timer = startLogOutTimer();
-    }, 1000);
-  
+  }, 1000);
+
   inputWithdrawalAmount.value = "";
 });
 
@@ -478,10 +504,10 @@ btnClose.addEventListener("click", function (e) {
     containerApp.style.opacity = 0;
     labelWelcome.textContent = "Log in to get started";
 
-    labelLogin.style.display = 'none';
-  
+    labelLogin.style.display = "none";
+
     // Display Welcome Message
-    containerSection.style.display = 'flex';
+    containerSection.style.display = "flex";
   }
   inputCloseUsername.value = inputClosePin.value = "";
 });
@@ -493,9 +519,9 @@ btnLogout.addEventListener("click", function () {
   // Hide UI
   containerApp.style.opacity = 0;
 
-  labelLogin.style.display = 'none';
+  labelLogin.style.display = "none";
   // Display Welcome Message
-  containerSection.style.display = 'flex';
+  containerSection.style.display = "flex";
 });
 
 //Start LogOutTimer
@@ -512,8 +538,8 @@ const startLogOutTimer = function () {
       clearInterval(timer);
       labelWelcome.textContent = "Log in to get started";
       containerApp.style.opacity = 0;
-      labelLogin.style.display = 'none';
-      containerSection.style.display = 'flex';
+      labelLogin.style.display = "none";
+      containerSection.style.display = "flex";
     }
 
     //Decrease 1s
@@ -540,8 +566,8 @@ const formatCurrency = function (value, locale, currency) {
 
 //Format Currency Movements
 const formatMovementDate = function (date, locale) {
-  const calcDaysPassed = (date1,date2) => 
-  Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
+  const calcDaysPassed = (date1, date2) =>
+    Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
 
   const daysPassed = calcDaysPassed(new Date(), date);
 
@@ -559,71 +585,39 @@ const formatMovementDate = function (date, locale) {
 
 
 
-// /////////////////////////////////////////////////
-// /////////////////////////////////////////////////
-// /////////////////////////////////////////////////
-// /////////////////////////////////////////////////
-
-
-
-// Include api for currency change
-const api = "https://api.exchangerate-api.com/v4/latest/USD";
- 
-// For selecting different controls
-let search = document.querySelector(".searchBox");
-let convert = document.querySelector(".convert");
-let fromCurrecy = document.querySelector(".from");
-let toCurrecy = document.querySelector(".to");
-let finalValue = document.querySelector(".finalValue");
-let finalAmount = document.getElementById("finalAmount");
-let resultFrom;
-let resultTo;
-let searchValue;
- 
 // Event when currency is changed
-fromCurrecy.addEventListener('change', (event) => {
-    resultFrom = `${event.target.value}`;
+fromCurrency.addEventListener("change", (event) => {
+  resultFrom = `${event.target.value}`;
 });
- 
+
 // Event when currency is changed
-toCurrecy.addEventListener('change', (event) => {
-    resultTo = `${event.target.value}`;
+toCurrency.addEventListener("change", (event) => {
+  resultTo = `${event.target.value}`;
 });
- 
-search.addEventListener('input', updateValue);
- 
+
+search.addEventListener("input", updateValue);
+
 // Function for updating value
 function updateValue(e) {
-    searchValue = e.target.value;
+  searchValue = e.target.value;
 }
- 
-// When user clicks, it calls function getresults 
+
+// When user clicks, it calls function getresults
 convert.addEventListener("click", getResults);
- 
+
 // Function getresults
 function getResults() {
-    fetch(`${api}`)
-        .then(currency => {
-            return currency.json();
-        }).then(displayResults);
+  fetch(`${api}`)
+    .then((currency) => {
+      return currency.json();
+    })
+    .then(displayResults);
 }
- 
+
 // Display results after conversion
 function displayResults(currency) {
-    let fromRate = currency.rates[resultFrom];
-    let toRate = currency.rates[resultTo];
-    finalValue.innerHTML =
-        ((toRate / fromRate) * searchValue).toFixed(2);
-    finalAmount.style.display = "block";
+  let fromRate = currency.rates[resultFrom];
+  let toRate = currency.rates[resultTo];
+  finalValue.innerHTML = ((toRate / fromRate) * searchValue).toFixed(2);
+  finalAmount.style.display = "block";
 }
- 
-// When user click on reset button
-function clearVal() {
-    window.location.reload();
-    document.getElementsByClassName("finalValue").innerHTML = "";
-};
-
-
-// ///////////////////////////////////////////
-// ///////////////////////////////////////////
-// ///////////////////////////////////////////
