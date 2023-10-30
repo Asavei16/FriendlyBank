@@ -1,4 +1,4 @@
-# FriendlyBank - a friendly app (with JavaScript)...still in progress
+# FriendlyBank - a friendly app (with JavaScript)
 I'm making this app, because I want to learn JavaScript.
 
 You can: 
@@ -28,7 +28,8 @@ You can:
 <img width="918" alt="transfer-before" src="https://github.com/Asavei16/FriendlyBank/assets/57408487/fb6bbd17-adc3-49d2-97ba-4e5d264c7bf9">
 <img width="913" alt="transfer-after" src="https://github.com/Asavei16/FriendlyBank/assets/57408487/0c617332-2aab-4e24-aec2-c056db52de11">
 
-## Before/After transfer from Andrei Pop (ap) to Irina Mates (im) - Irina Mates page
+## Before/After transfer from Andrei Pop (ap) to Irina Mates (im) + currency conversion from RON to EUR - Irina Mates page
+### Before
 <img width="903" alt="transfer-before_IM" src="https://github.com/Asavei16/FriendlyBank/assets/57408487/3948738c-1d4b-421d-8341-db8b3ee85274">
 <img width="913" alt="transfer-after_IM" src="https://github.com/Asavei16/FriendlyBank/assets/57408487/33700aa1-d863-49c1-ad77-c680d0d11b91">
 
