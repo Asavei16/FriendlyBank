@@ -13,6 +13,12 @@ You can:
 * Logout Timer
 * Currency Conversion
 
+Use the credentials below:
+User: AP , PIN: 1111 , AP -> Andrei Pop
+User: AC , PIN: 2222, AC -> Adelina Coman
+User: CM , PIN: 3333, CM -> Catalin Moldovan
+User: IM , PIN: 4444, IM -> Irina Mates
+
 ## Diagram - FriendlyBank
 
 ![FriendlyBank_Diagram](https://github.com/Asavei16/FriendlyBank/assets/57408487/ee0675ba-3481-4e9d-b317-49a8327eca7e)
@@ -47,5 +53,9 @@ You can:
 
 ### After
 <img width="291" alt="sort-after" src="https://github.com/Asavei16/FriendlyBank/assets/57408487/443d8b1e-fc0e-4475-9780-9e72c0107a28">
+
+
+You can see the result here 
+## https://friendlybank.netlify.app/
 
 
