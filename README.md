@@ -1,5 +1,4 @@
 # FriendlyBank - a friendly app (with JavaScript)
-I'm making this app, because I want to learn JavaScript.
 
 You can: 
 * Sign In
