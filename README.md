@@ -14,10 +14,10 @@ You can:
 * Currency Conversion
 
 Use the credentials below:
-- User: AP , PIN: 1111 , AP -> Andrei Pop
-- User: AC , PIN: 2222, AC -> Adelina Coman
-- User: CM , PIN: 3333, CM -> Catalin Moldovan
-- User: IM , PIN: 4444, IM -> Irina Mates
+- User: ap , PIN: 1111 , AP -> Andrei Pop
+- User: ac , PIN: 2222, AC -> Adelina Coman
+- User: cm , PIN: 3333, CM -> Catalin Moldovan
+- User: im , PIN: 4444, IM -> Irina Mates
 
 ## Diagram - FriendlyBank
 
