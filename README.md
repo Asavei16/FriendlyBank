@@ -10,7 +10,7 @@ You can:
 * Close account
 * Sort balance
 * Logout
-* LogOut Timer
+* Logout Timer
 * Currency Conversion
 
 ## Diagram - FriendlyBank
